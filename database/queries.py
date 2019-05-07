@@ -16,3 +16,12 @@ def insert_new_user(u_name, pword, email, f_name, l_name):
     """,
                                 variables={'user_name': u_name, 'first_name': f_name, 'last_name': l_name,
                                            'hashed_password': pword, 'email_address': email})
+
+
+def get_user(username):
+    return data_manager.execute_select('''
+    SELECT user_name, hashed_password
+    FROM users
+    WHERE user_name=%(username)s
+    ''', variables={'username': username})
+

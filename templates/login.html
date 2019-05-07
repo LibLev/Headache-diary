@@ -8,16 +8,16 @@
                 <div class="card-body">
                     <h5 class="card-title text-center">Sign In</h5>
                     <img class='avatar' src="{{ url_for('static', filename='img/psyduck.png') }}" alt="Avatar">
-                    <form class="form-signin">
+                    <form class="form-signin" action="{{ url_for('login') }}" method="post">
                         <div class="form-label-group">
-                            <label for="inputEmail">Username</label>
-                            <input type="text" id="inputUsername" class="form-control" placeholder="Username"
+                            <label for="inputUsername">Username</label>
+                            <input type="text" id="username" class="form-control" placeholder="Username" name="username"
                                    required autofocus>
                         </div>
 
                         <div class="form-label-group">
                             <label for="inputPassword">Password</label>
-                            <input type="password" id="inputPassword" class="form-control" placeholder="Password"
+                            <input type="password" id="password" class="form-control" placeholder="Password" name="password"
                                    required>
                         </div>
 

@@ -23,6 +23,16 @@ def registration():
     return render_template('registration.html')
 
 
+@app.route('/login', methods=['POST', 'GET'])
+def login():
+    if request.method == 'POST':
+        user = queries.get_user(request.form.get('username'))
+        password = request.form.get('password')
+        verified = hash.verify_password(password, user['hashed_password'])
+        print(verified)
+        return redirect('/')
+
+
 def get_registration_data():
     user_name = request.form.get('username')
     first_name = request.form.get('first_name')
@@ -30,6 +40,9 @@ def get_registration_data():
     e_mail_address = request.form.get('email_address')
     password = hash.hash_password(request.form.get('password'))
     return user_name, first_name, last_name, password, e_mail_address
+
+
+
 
 
 if __name__ == '__main__':
