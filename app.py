@@ -14,11 +14,11 @@ def main_page():
 def registration():
     if request.method == 'POST':
         username, first_name, last_name, password, email = get_registration_data()
-        check_name = queries.find_user(u_name=username)
-        if check_name['user_name'] is not None:
+        check_name = queries.find_user(username)
+        if len(check_name) > 0:
             return render_template('registration.html',
                                    message='Sorry, This user name is already in use. Please Select another')
-        queries.insert_new_user(u_name=username, f_name=first_name, l_name=last_name, pword=password, email=email)
+        queries.insert_new_user(username, first_name, last_name, password, email)
         return redirect('/')
     return render_template('registration.html')
 

@@ -1,24 +1,18 @@
 from database import data_manager
 
 
-def test():
-    return data_manager.execute_select('''
-    SELECT id FROM users
-    ''')
-
-
 def find_user(u_name):
     return data_manager.execute_select('''
     select user_name, id
     from users
-    where user_name=%(username)s''',
+    where user_name=%(user_name)s''',
                                        variables={'user_name': u_name})
 
 
 def insert_new_user(u_name, pword, email, f_name, l_name):
-    return data_manager.execute_select("""
+    data_manager.execute_select("""
     insert into users (user_name,first_name,last_name,hashed_password,email_address)
-    values (%(username)s, %(first_name)s, %(last_name)s, %(h_password)s, %(e_mail)s)
+    values (%(user_name)s, %(first_name)s, %(last_name)s, %(hashed_password)s, %(email_address)s)
     """,
-                                       variables={'user_name': u_name, 'first_name': f_name, 'last_name': l_name,
-                                                  'hashed_password': pword, 'email_address': email})
+                                variables={'user_name': u_name, 'first_name': f_name, 'last_name': l_name,
+                                           'hashed_password': pword, 'email_address': email})
