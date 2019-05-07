@@ -5,6 +5,8 @@ DROP TABLE IF EXISTS public.user;
 CREATE TABLE users (
   id serial NOT NULL,
   user_name varchar,
+  first_name varchar,
+  last_name varchar,
   hashed_password text,
   email_address varchar
 );
