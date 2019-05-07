@@ -9,7 +9,7 @@ def find_user(u_name):
                                        variables={'user_name': u_name})
 
 
-def insert_new_user(u_name, pword, email, f_name, l_name):
+def insert_new_user(u_name, f_name, l_name, pword, email):
     data_manager.execute_select("""
     insert into users (user_name,first_name,last_name,hashed_password,email_address)
     values (%(user_name)s, %(first_name)s, %(last_name)s, %(hashed_password)s, %(email_address)s)
