@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, session, request
+from database import queries
 
 app = Flask(__name__)
 
