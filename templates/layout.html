@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Layout</title>
-    <link href="{{ url_for ("static", filename="style/bootstrap.css") }}">
-    <script src="{{ url_for ("static", filename="static/script/script.js") }}" defer></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for ("static", filename="style/bootstrap.css") }}">
+    <script src="{{ url_for ("static", filename="script/script.js") }}" defer></script>
 </head>
 <body>
     {% block content %} {% endblock %}
