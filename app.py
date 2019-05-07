@@ -29,7 +29,7 @@ def get_registration_data():
     last_name = request.form.get('last_name')
     e_mail_address = request.form.get('email_address')
     password = hash.hash_password(request.form.get('password'))
-    return user_name, first_name, last_name ,password, e_mail_address
+    return user_name, first_name, last_name, password, e_mail_address
 
 
 if __name__ == '__main__':
