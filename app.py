@@ -28,7 +28,7 @@ def login():
     if request.method == 'POST':
         user = queries.get_user(request.form.get('username'))
         password = request.form.get('password')
-        verified = hash.verify_password(password, user['hashed_password'])
+        verified = hash.verify_password(password, user[1])
         print(verified)
         return redirect('/')
 
