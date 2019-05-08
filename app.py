@@ -6,6 +6,11 @@ app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 
+@app.route('/index')
+def index():
+    return render_template('index.html')
+
+
 @app.route('/')
 def main_page():
     return render_template('login.html')
@@ -33,7 +38,7 @@ def login():
         if verified:
             session['username'] = user[0]
             session['is_valid'] = True
-        return render_template('index.html')
+        return redirect('/index')
 
 
 def get_registration_data():
