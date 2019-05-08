@@ -63,5 +63,10 @@ def get_registration_data():
     return user_name, first_name, last_name, password, e_mail_address
 
 
+@app.route('/scale', methods=['POST', 'GET'])
+def scale():
+    print('hue')
+
+
 if __name__ == '__main__':
     app.run()

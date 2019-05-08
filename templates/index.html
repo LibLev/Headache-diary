@@ -12,7 +12,7 @@
         <div class="col text-center">
             <h2>(variable datePhase) headache pain scale check</h2>
             <hr>
-            <form>
+            <form action="{{ url_for('scale') }}" method="post">
                 <label class="radio-inline"><h5>1</h5>
                     <input type="radio" name="optradio" checked>
                 </label>
@@ -43,6 +43,9 @@
                 <label class="radio-inline"><h5>10</h5>
                     <input type="radio" name="optradio">
                 </label>
+                <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" name="scale">
+                    Submit
+                </button>
             </form>
         </div>
     </div>
