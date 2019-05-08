@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, session, request
 from database import queries
 import hash
+from time import strftime, localtime
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -10,7 +11,8 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 def index():
     if session.get('username') is None:
         return redirect('/')
-    return render_template('index.html')
+    dayPhase()
+    return render_template('index.html', dayPhase=dayPhase())
 
 
 @app.route('/')
@@ -68,6 +70,23 @@ def scale():
     if request.method == 'POST':
         scale = request.form.get('optradio')
     return redirect('/index')
+
+
+def dayPhase():
+    month_day = strftime('%m.%d', localtime())
+    hour_minute = strftime('%H:%M', localtime())
+    current_date_and_time = month_day+'.'+hour_minute
+    get_time = hour_minute.split(':')
+    if int(get_time[0]) >= 0 and int(get_time[0]) < 11:
+        currentPhase = 'morning'
+    elif int(get_time[0]) >= 11 and int(get_time[0]) < 17:
+        currentPhase = 'afternoon'
+    elif int(get_time[0]) >= 17 and int(get_time[0]) < 23:
+        currentPhase = 'evening'
+
+    return currentPhase
+
+
 
 
 if __name__ == '__main__':
