@@ -6,42 +6,23 @@ import hash
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
-app.config.from_pyfile('config.cfg')
+app.config.update(
+    MAIL_SERVER='smtp.gmail.com',
+    MAIL_USERNAME='headachediary.noreply@gmail.com',
+    MAIL_PASSWORD='cheeseCake02',
+    MAIL_PORT=465,
+    MAIL_USE_SSL=True,
+    MAIL_USE_TLS=False
+)
 
 mail = Mail(app)
 
 s = URLSafeTimedSerializer('Thisisasecret!')
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def main_page():
     return render_template('login.html')
-
-
-@app.route('/test', methods=['GET', 'POST'])
-def test():
-    if request.method == 'GET':
-        return render_template('test.html')
-    email = request.form['email']
-    token = s.dumps(email, salt='email-confirm')
-    msg = Message('Registration confirmation(do not reply!)', sender='headachediary.noreply@gmail.com',
-                  recipients=[email])
-
-    link = url_for('confirmation', token=token, _external=True)
-
-    msg.body = '''Dear xy,
-
-            Thank you very much for your registration
-            Your confirmation link is: {}
-
-            Best regards,
-
-            Headache Diary ltd.
-
-            !!!Please DO NOT reply!!!'''.format(link)
-
-    mail.send(msg)
-    return redirect('/')
 
 
 @app.route('/registration', methods=['GET', 'POST'])
@@ -60,7 +41,7 @@ def registration():
 
         link = url_for('confirmation', token=token, _external=True)
 
-        msg.body = '''Dear {},
+        msg.body = '''Dear {}, 
         
         Thank you very much for your registration
         Your confirmation link is: {}
@@ -76,12 +57,14 @@ def registration():
     return render_template('registration.html')
 
 
-@app.route('/confirmation/<token>')
+@app.route('/confirmation/<token>', methods=['GET', 'POST'])
 def confirmation(token):
-    try:
-        email = s.loads(token, salt='email-confirm', max_age=86400)
-    except:
-        return render_template('confirmation.html', status='not_valid')
+    if request.method == 'POST':
+        try:
+            email = s.loads(token, salt='email-confirm', max_age=86400)
+        except SignatureExpired:
+            return render_template('confirmation.html', status='not_valid')
+        return redirect('/login')
     return render_template('confirmation.html', status='valid')
 
 
