@@ -4,10 +4,10 @@
 
     {% include 'navbar.html' %}
 
-    <div class="row">
-        <div class="col"><img src="{{ url_for('static', filename='img/psyduck.png') }}" alt="" class="avatar"></div>
-        <div class="col">{{ session.first_name + ' '+  session.last_name }}</div>
-    </div>
+{#    <div class="row">#}
+{#        <div class="col"><img src="{{ url_for('static', filename='img/psyduck.png') }}" alt="" class="avatar"></div>#}
+{#        <div class="col">{{ session.first_name + ' '+  session.last_name }}</div>#}
+{#    </div>#}
     <div class="row">
         <div class="col text-center">
             <h2>{{ dayPhase }} headache pain scale check</h2>
