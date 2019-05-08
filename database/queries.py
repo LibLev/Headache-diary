@@ -20,7 +20,7 @@ def insert_new_user(u_name, f_name, l_name, pword, email):
 
 def get_user(username):
     return data_manager.execute_dml_statement('''
-    SELECT user_name, hashed_password
+    SELECT user_name, hashed_password, first_name, last_name, email_address
     FROM users
     WHERE user_name=%(username)s
     ''', variables={'username': username})

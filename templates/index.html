@@ -4,8 +4,9 @@
 
     {% include 'navbar.html' %}
 
-{% if session['is_valid'] %}
-    {{ session['username'] }}
-{% endif %}
+    <div class="row">
+        <div class="col"><img src="{{ url_for('static', filename='img/psyduck.png') }}" alt="" class="avatar"></div>
+        <div class="col"></div>
+    </div>
 
 {% endblock %}

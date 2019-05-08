@@ -41,6 +41,9 @@ def login():
         verified = hash.verify_password(password, user[1])
         if verified:
             session['username'] = user[0]
+            session['first_name'] = user[2]
+            session['last_name'] = user[3]
+            session['email'] = user[4]
             session['is_valid'] = True
         return redirect('/index')
 
