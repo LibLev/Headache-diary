@@ -65,7 +65,9 @@ def get_registration_data():
 
 @app.route('/scale', methods=['POST', 'GET'])
 def scale():
-    print('hue')
+    if request.method == 'POST':
+        scale = request.form.get('optradio')
+    return redirect('/index')
 
 
 if __name__ == '__main__':
