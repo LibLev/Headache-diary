@@ -2,11 +2,11 @@ from database import data_manager
 
 
 def find_user(u_name):
-    return data_manager.execute_select('''
+    return data_manager.execute_dml_statement('''
     select user_name, id
     from users
     where user_name=%(user_name)s''',
-                                       variables={'user_name': u_name})
+                                              variables={'user_name': u_name})
 
 
 def insert_new_user(u_name, f_name, l_name, pword, email):

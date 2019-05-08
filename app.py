@@ -3,6 +3,7 @@ from database import queries
 import hash
 
 app = Flask(__name__)
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 
 @app.route('/')
@@ -15,7 +16,7 @@ def registration():
     if request.method == 'POST':
         username, first_name, last_name, password, email = get_registration_data()
         check_name = queries.find_user(username)
-        if len(check_name) > 0:
+        if check_name is not None:
             return render_template('registration.html',
                                    message='Sorry, This user name is already in use. Please Select another')
         queries.insert_new_user(username, first_name, last_name, password, email)
@@ -29,8 +30,10 @@ def login():
         user = queries.get_user(request.form.get('username'))
         password = request.form.get('password')
         verified = hash.verify_password(password, user[1])
-        print(verified)
-        return redirect('/')
+        if verified:
+            session['username'] = user[0]
+            session['is_valid'] = True
+        return render_template('index.html')
 
 
 def get_registration_data():
