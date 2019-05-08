@@ -83,10 +83,10 @@ def dayPhase():
         currentPhase = 'afternoon'
     elif int(get_time[0]) >= 17 and int(get_time[0]) < 23:
         currentPhase = 'evening'
+    elif int(get_time[0] == 23) and int(get_time[1]) < 59:
+        currentPhase = 'evening'
 
     return currentPhase
-
-
 
 
 if __name__ == '__main__':
