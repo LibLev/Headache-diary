@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    {% if status != 'valid' %}
+                    <h1>Sorry, the registration has been deleted!</h1>
+                    {% else %}
+                    <h1>Thank you for your registration! For the Sign in, please click below!</h1>
+                    <button class="btn btn-lg btn-primary btn-block text-uppercase" name="registration-confirmation"
+                            id="registration-confirmation">GO TO LOGIN!
+                    </button>
+                </div>
+            </div>
+        </div>
+</div>
+
+{% endblock %}

@@ -1,14 +1,47 @@
-from flask import Flask, render_template, redirect, session, request
+from flask import Flask, render_template, redirect, session, request, url_for
+from flask_mail import Mail, Message
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 from database import queries
 import hash
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+app.config.from_pyfile('config.cfg')
+
+mail = Mail(app)
+
+s = URLSafeTimedSerializer('Thisisasecret!')
 
 
 @app.route('/')
 def main_page():
     return render_template('login.html')
+
+
+@app.route('/test', methods=['GET', 'POST'])
+def test():
+    if request.method == 'GET':
+        return render_template('test.html')
+    email = request.form['email']
+    token = s.dumps(email, salt='email-confirm')
+    msg = Message('Registration confirmation(do not reply!)', sender='headachediary.noreply@gmail.com',
+                  recipients=[email])
+
+    link = url_for('confirmation', token=token, _external=True)
+
+    msg.body = '''Dear xy,
+
+            Thank you very much for your registration
+            Your confirmation link is: {}
+
+            Best regards,
+
+            Headache Diary ltd.
+
+            !!!Please DO NOT reply!!!'''.format(link)
+
+    mail.send(msg)
+    return redirect('/')
 
 
 @app.route('/registration', methods=['GET', 'POST'])
@@ -20,8 +53,36 @@ def registration():
             return render_template('registration.html',
                                    message='Sorry, This user name is already in use. Please Select another')
         queries.insert_new_user(username, first_name, last_name, password, email)
+        token = s.dumps(email, salt='email-confirm')
+
+        msg = Message('Registration confirmation(do not reply!)', sender='headachediary.noreply@gmail.com',
+                      recipients=[email])
+
+        link = url_for('confirmation', token=token, _external=True)
+
+        msg.body = '''Dear {},
+        
+        Thank you very much for your registration
+        Your confirmation link is: {}
+        
+        Best regards,
+        
+        Headache Diary ltd.
+        
+        !!!Please DO NOT reply!!!'''.format(username, link)
+
+        mail.send(msg)
         return redirect('/')
     return render_template('registration.html')
+
+
+@app.route('/confirmation/<token>')
+def confirmation(token):
+    try:
+        email = s.loads(token, salt='email-confirm', max_age=86400)
+    except:
+        return render_template('confirmation.html', status='not_valid')
+    return render_template('confirmation.html', status='valid')
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -43,9 +104,6 @@ def get_registration_data():
     e_mail_address = request.form.get('email_address')
     password = hash.hash_password(request.form.get('password'))
     return user_name, first_name, last_name, password, e_mail_address
-
-
-
 
 
 if __name__ == '__main__':

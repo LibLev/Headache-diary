@@ -9,7 +9,7 @@
           <div class="card-body">
             <h5 class="card-title text-center">Registration</h5>
             <form class="form-signin" action="{{ url_for('registration') }}" method="post">
-
+                {{ message }}
               <div class="form-label-group">
                 <label for="inputUserName">User name</label>
                 <input name="username" type="text" id="inputUserName" class="form-control" placeholder="User name" required autofocus>
