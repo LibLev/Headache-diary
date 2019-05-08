@@ -1,0 +1,19 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="" id="statistics">statistic</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav navbar-right">
+            <li class="nav-item" {% if session["is_valid"] == False %} hidden {% endif %}>
+                <a class="nav-link" href="{{ url_for('logout') }}" id="logout">{% if session["is_valid"] == True %} logout (
+                    {{ session["username"] }} ) {% endif %}</a>
+            </li>
+        </ul>
+    </div>
+</nav>

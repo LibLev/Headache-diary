@@ -8,11 +8,15 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 @app.route('/index')
 def index():
+    if session.get('username') is None:
+        return redirect('/')
     return render_template('index.html')
 
 
 @app.route('/')
 def main_page():
+    if session.get('username'):
+        return redirect('/index')
     return render_template('login.html')
 
 
@@ -41,6 +45,12 @@ def login():
         return redirect('/index')
 
 
+@app.route('/logout', methods=['POST', 'GET'])
+def logout():
+    session.clear()
+    return redirect('/')
+
+
 def get_registration_data():
     user_name = request.form.get('username')
     first_name = request.form.get('first_name')
@@ -48,9 +58,6 @@ def get_registration_data():
     e_mail_address = request.form.get('email_address')
     password = hash.hash_password(request.form.get('password'))
     return user_name, first_name, last_name, password, e_mail_address
-
-
-
 
 
 if __name__ == '__main__':
