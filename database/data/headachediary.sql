@@ -19,7 +19,7 @@ CREATE TABLE phases (
   afternoon_scale integer,
   evening_scale integer,
   submission_time timestamp without time zone,
-  day int
+  num_of_day int
 );
 
 INSERT INTO users

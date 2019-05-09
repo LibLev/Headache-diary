@@ -37,7 +37,7 @@ def insert_new_value_at_morning(u_id, value, time):
 
 def check_morning_data():
     return data_manager.execute_dml_statement('''
-    SELECT user_id, morning_scale
+    SELECT user_id, morning_scale, day
     FROM phases''')
 
 

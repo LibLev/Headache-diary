@@ -27,7 +27,15 @@ secret = URLSafeTimedSerializer('Thisisasecret!')
 def index():
     if session.get('username') is None:
         return redirect('/')
-    day_phase()
+    if day_phase() is 'morning':
+        print('mornign')
+        queries.check_morning_data()
+    elif day_phase() is 'afternoon':
+        queries.check_afternoon_data()
+        print('after')
+    elif day_phase() is 'evening':
+        queries.check_evening_data()
+        print('evening')
     return render_template('index.html', dayPhase=day_phase())
 
 
@@ -94,7 +102,6 @@ def login():
             session['email'] = user[4]
             session['user_id'] = user[5]
             session['is_valid'] = True
-            print(session['user_id'])
         return redirect('/index')
 
 
