@@ -5,6 +5,7 @@ from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 from database import queries
 import hash
 from time import strftime, localtime
+import datetime
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -26,8 +27,8 @@ secret = URLSafeTimedSerializer('Thisisasecret!')
 def index():
     if session.get('username') is None:
         return redirect('/')
-    dayPhase()
-    return render_template('index.html', dayPhase=dayPhase())
+    day_phase()
+    return render_template('index.html', dayPhase=day_phase())
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -91,7 +92,9 @@ def login():
             session['first_name'] = user[2]
             session['last_name'] = user[3]
             session['email'] = user[4]
+            session['user_id'] = user[5]
             session['is_valid'] = True
+            print(session['user_id'])
         return redirect('/index')
 
 
@@ -113,11 +116,25 @@ def get_registration_data():
 @app.route('/scale', methods=['POST', 'GET'])
 def scale():
     if request.method == 'POST':
-        scale = request.form.get('optradio')
+        if day_phase()[0] == 'morning':
+            user_id = session.get('user_id')
+            value = request.form.get('optradio')
+            time = datetime.datetime.now()
+            queries.insert_new_value_at_morning(u_id=user_id, value=value, time=time)
+        elif day_phase()[0] == 'afternoon':
+            user_id = session.get('user_id')
+            value = request.form.get('optradio')
+            time = datetime.datetime.now()
+            queries.insert_new_value_at_afternoon(u_id=user_id, value=value, time=time)
+        elif day_phase()[0] == 'evening':
+            user_id = session.get('user_id')
+            value = request.form.get('optradio')
+            time = datetime.datetime.now()
+            queries.insert_new_value_at_evening(u_id=user_id, value=value, time=time)
     return redirect('/index')
 
 
-def dayPhase():
+def day_phase():
     month_day = strftime('%m.%d', localtime())
     hour_minute = strftime('%H:%M', localtime())
     current_date_and_time = month_day + '.' + hour_minute
@@ -131,7 +148,7 @@ def dayPhase():
     elif int(get_time[0] == 23) and int(get_time[1]) < 59:
         currentPhase = 'evening'
 
-    return currentPhase
+    return currentPhase, current_date_and_time
 
 
 if __name__ == '__main__':

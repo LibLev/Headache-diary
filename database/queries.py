@@ -20,7 +20,34 @@ def insert_new_user(u_name, f_name, l_name, pword, email):
 
 def get_user(username):
     return data_manager.execute_dml_statement('''
-    SELECT user_name, hashed_password, first_name, last_name, email_address
+    SELECT user_name, hashed_password, first_name, last_name, email_address, id
     FROM users
     WHERE user_name=%(username)s
     ''', variables={'username': username})
+
+
+def insert_new_value_at_morning(u_id, value, time):
+    return data_manager.execute_dml_statement('''
+    INSERT INTO phases(user_id, morning_scale, submission_time)
+    VALUES (%(u_id)s, %(value)s, %(time)s)
+    ''',
+                                              variables={'u_id': u_id, 'value': value,
+                                                         'time': time})
+
+
+def insert_new_value_at_afternoon(u_id, value, time):
+    return data_manager.execute_dml_statement('''
+    INSERT INTO phases(user_id, afternoon_scale, submission_time)
+    VALUES (%(u_id)s, %(value)s, %(time)s)
+    ''',
+                                              variables={'u_id': u_id, 'value': value,
+                                                         'time': time})
+
+
+def insert_new_value_at_evening(u_id, value, time):
+    return data_manager.execute_dml_statement('''
+    INSERT INTO phases(user_id, evening_scale, submission_time)
+    VALUES (%(u_id)s, %(value)s, %(time)s)
+    ''',
+                                              variables={'u_id': u_id, 'value': value,
+                                                         'time': time})

@@ -14,6 +14,7 @@
             <li class="nav-item" {% if session["is_valid"] == False %} hidden {% endif %}>
                 <a class="nav-link" href="{{ url_for('logout') }}" id="logout">{% if session["is_valid"] == True %} logout (
                     {{ session["username"] }} ) {% endif %}</a>
+                <input name="{{ session["user_id"] }}" type="hidden">
             </li>
         </ul>
     </div>
