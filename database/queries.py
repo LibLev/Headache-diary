@@ -35,6 +35,12 @@ def insert_new_value_at_morning(u_id, value, time):
                                                          'time': time})
 
 
+def check_morning_data():
+    return data_manager.execute_dml_statement('''
+    SELECT user_id, morning_scale
+    FROM phases''')
+
+
 def insert_new_value_at_afternoon(u_id, value, time):
     return data_manager.execute_dml_statement('''
     INSERT INTO phases(user_id, afternoon_scale, submission_time)
@@ -44,6 +50,12 @@ def insert_new_value_at_afternoon(u_id, value, time):
                                                          'time': time})
 
 
+def check_afternoon_data():
+    return data_manager.execute_dml_statement('''
+    SELECT user_id, afternoon_scale
+    FROM phases''')
+
+
 def insert_new_value_at_evening(u_id, value, time):
     return data_manager.execute_dml_statement('''
     INSERT INTO phases(user_id, evening_scale, submission_time)
@@ -51,3 +63,9 @@ def insert_new_value_at_evening(u_id, value, time):
     ''',
                                               variables={'u_id': u_id, 'value': value,
                                                          'time': time})
+
+
+def check_evening_data():
+    return data_manager.execute_dml_statement('''
+    SELECT user_id, evening_scale
+    FROM phases''')

@@ -148,7 +148,7 @@ def day_phase():
     elif int(get_time[0] == 23) and int(get_time[1]) < 59:
         currentPhase = 'evening'
 
-    return currentPhase, current_date_and_time
+    return currentPhase
 
 
 if __name__ == '__main__':
