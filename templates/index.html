@@ -14,7 +14,9 @@
             <h2>{{ dayPhase }} headache pain scale check</h2>
             <hr>
             {% if current_day == None %}
-                <a href="{{ url_for('start_diary') }}">start diary</a>
+                <a href="{{ url_for('start_diary') }}"><button class="btn btn-lg btn-primary btn-block text-uppercase" name="start"
+                        id="start-button">Start diary
+                </button></a>
             {% else %}
                 {% if dayPhaseIsDone == False %}
                     <form action="{{ url_for('scale') }}" method="post">

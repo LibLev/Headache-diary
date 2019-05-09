@@ -32,17 +32,26 @@ def index():
         current_day = None
         queries.bind_user_to_phase(session.get('user_id'), datetime.datetime.now())
 
+    day_phase_is_done = True
+    usr_id = session['user_id']
     if day_phase() is 'morning':
-        data = queries.check_morning_data(session.get('user_id'))
+        next_day = queries.check_evening_data(usr_id)[0]
+        if next_day is not None:
+            queries.set_next_day(usr_id, queries.get_last_day(usr_id)[0] + 1)
+
+        data = queries.check_morning_data(usr_id)
+        if data[0] is None:
+            day_phase_is_done = False
     elif day_phase() is 'afternoon':
-        data = queries.check_afternoon_data(session.get('user_id'))
+        data = queries.check_afternoon_data(usr_id)
+        if data[1] is None:
+            day_phase_is_done = False
     elif day_phase() is 'evening':
-        data = queries.check_evening_data(session.get('user_id'))
-    if data[-1]["evening_scale"] is None:
-        day_phase_is_done = False
-    else:
-        day_phase_is_done = True
-    return render_template('index.html', dayPhase=day_phase(), current_day=current_day, dayPhaseIsDone=day_phase_is_done)
+        data = queries.check_evening_data(usr_id)
+        if data[2] is None:
+            day_phase_is_done = False
+    return render_template('index.html', dayPhase=day_phase(), current_day=current_day,
+                           dayPhaseIsDone=day_phase_is_done)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -162,7 +171,7 @@ def day_phase():
         currentPhase = 'afternoon'
     elif int(get_time[0]) >= 17 and int(get_time[0]) < 23:
         currentPhase = 'evening'
-    elif int(get_time[0] == 23) and int(get_time[1]) < 59:
+    elif int(get_time[0]) >= 23 and int(get_time[1]) < 59:
         currentPhase = 'evening'
 
     return currentPhase

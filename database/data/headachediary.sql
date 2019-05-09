@@ -24,6 +24,19 @@ CREATE TABLE phases (
 
 INSERT INTO users
 VALUES (0, 'admin', 'admin', 'admin', '$2b$12$YFMZw7nZtVRiap51QSWj2uU5pUGPFvmOYadN89OtwAwbBnNG21/qO', 'headachediary.noreply@gmail.com');
+INSERT INTO users
+VALUES (1, 'szkript', 'Szanyi', 'Krisztián', '$2b$12$W/2xeeOXDf9EVoJemNANf.pFE0v8cG30Y6CX1f16V1hxvkP4Qwf6a', 'szkript@gmail.com');
+
+
+INSERT INTO phases VALUES (0, 0, 1, NULL, NULL, '2019-05-09 22:46:00.652267', 1);
+INSERT INTO phases VALUES (0, 0, NULL, 3, NULL, '2019-05-09 22:46:00.652268', 1);
+INSERT INTO phases VALUES (0, 0, NULL, NULL, 2, '2019-05-09 22:46:00.652269', 1);
+INSERT INTO phases VALUES (0, 0, 7, NULL, NULL, '2019-05-09 22:46:00.652270', 2);
+INSERT INTO phases VALUES (0, 0, NULL, 9, NULL, '2019-05-09 22:46:00.652271', 2);
+INSERT INTO phases VALUES (0, 0, NULL, NULL, 4, '2019-05-09 22:46:00.652272', 2);
+INSERT INTO phases VALUES (0, 0, 3, NULL, NULL, '2019-05-09 22:46:00.652273', 3);
+INSERT INTO phases VALUES (0, 0, NULL, 2, NULL, '2019-05-09 22:46:00.652273', 3);
+
 
 ALTER TABLE ONLY users
   ADD CONSTRAINT pk_user_id PRIMARY KEY (id);

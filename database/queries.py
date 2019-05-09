@@ -54,10 +54,11 @@ def insert_new_value_at_evening(u_id, value, time, num_of_day):
 
 
 def check_morning_data(user_id):
-    return data_manager.execute_dml_statement('''
+    return data_manager.execute_select('''
     SELECT user_id, morning_scale, num_of_day
     FROM phases
     WHERE user_id = %(user_id)s
+    ORDER BY num_of_day DESC
     ''', variables={'user_id': user_id})
 
 
@@ -65,7 +66,9 @@ def check_afternoon_data(user_id):
     return data_manager.execute_dml_statement('''
     SELECT user_id, afternoon_scale, num_of_day
     FROM phases
-    WHERE user_id = %(user_id)s''',
+    WHERE user_id = %(user_id)s
+    ORDER BY num_of_day DESC
+    ''',
                                               variables={'user_id': user_id})
 
 
@@ -73,8 +76,10 @@ def check_evening_data(user_id):
     return data_manager.execute_select('''
     SELECT user_id, evening_scale, num_of_day
     FROM phases
-    WHERE user_id = %(user_id)s''',
-                                              variables={'user_id': user_id})
+    WHERE user_id = %(user_id)s
+    ORDER BY num_of_day DESC
+    ''',
+                                       variables={'user_id': user_id})
 
 
 def get_last_day(user_id):
@@ -108,3 +113,10 @@ def get_day_scales(user_id):
     WHERE user_id = %(user_id)s
     GROUP BY num_of_day
     ''', variables={'user_id': user_id})
+
+
+def set_next_day(user_id, day):
+    data_manager.execute_dml_statement('''
+    INSERT INTO phases(user_id, num_of_day)
+    VALUES (%(user_id)s, %(num_of_day)s)
+    ''', variables={'user_id': user_id, 'num_of_day': day})

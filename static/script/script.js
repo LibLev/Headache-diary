@@ -2,8 +2,10 @@ function init() {
     let tHeads = document.querySelectorAll('th');
     let currentDay = document.getElementById('current-day');
     for (let head of tHeads) {
+        head.style.backgroundColor = 'aqua';
         if (head.textContent === currentDay.value) {
-            head.style.backgroundColor = 'blue'
+            head.style.backgroundColor = 'blue';
+            break
         }
     }
 
@@ -21,8 +23,6 @@ document.addEventListener('DOMContentLoaded', function () {
             for (let scale of dayScales) {
                 let tdContent = document.getElementById(scale['num_of_day']);
                 tdContent.textContent = scale['scales'];
-                console.dir(tdContent)
-
 
             }
         })
