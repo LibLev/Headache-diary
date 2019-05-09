@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col text-center">
             <input type="hidden" name="{{ session["user_id"] }}">
-            <h2>{{ dayPhase[0] }} headache pain scale check</h2>
+            <h2>{{ dayPhase }} headache pain scale check</h2>
             <hr>
             <form action="{{ url_for('scale') }}" method="post">
                 <label class="radio-inline">

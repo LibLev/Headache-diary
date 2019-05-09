@@ -116,17 +116,17 @@ def get_registration_data():
 @app.route('/scale', methods=['POST', 'GET'])
 def scale():
     if request.method == 'POST':
-        if day_phase()[0] == 'morning':
+        if day_phase() == 'morning':
             user_id = session.get('user_id')
             value = request.form.get('optradio')
             time = datetime.datetime.now()
             queries.insert_new_value_at_morning(u_id=user_id, value=value, time=time)
-        elif day_phase()[0] == 'afternoon':
+        elif day_phase() == 'afternoon':
             user_id = session.get('user_id')
             value = request.form.get('optradio')
             time = datetime.datetime.now()
             queries.insert_new_value_at_afternoon(u_id=user_id, value=value, time=time)
-        elif day_phase()[0] == 'evening':
+        elif day_phase() == 'evening':
             user_id = session.get('user_id')
             value = request.form.get('optradio')
             time = datetime.datetime.now()
