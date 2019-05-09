@@ -16,45 +16,46 @@
             {% if current_day == None %}
                 <a href="{{ url_for('start_diary') }}">start diary</a>
             {% else %}
-
-            <form action="{{ url_for('scale') }}" method="post">
-                <label class="radio-inline">
-                    <input type="radio" name="optradio" checked value="0">0
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="optradio" checked value="1">1
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="optradio" value="2">2
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="optradio" value="3">3
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="optradio" value="4">4
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="optradio" value="5">5
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="optradio" value="6">6
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="optradio" value="7">7
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="optradio" value="8">8
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="optradio" value="9">9
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="optradio" value="10">10
-                </label>
-                <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" name="scale">
-                    Submit
-                </button>
-            </form>
+{#                {% if dayPhaseIsDone == False %}#}
+                    <form action="{{ url_for('scale') }}" method="post">
+                        <label class="radio-inline">
+                            <input type="radio" name="optradio" checked value="0">0
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="optradio" checked value="1">1
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="optradio" value="2">2
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="optradio" value="3">3
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="optradio" value="4">4
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="optradio" value="5">5
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="optradio" value="6">6
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="optradio" value="7">7
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="optradio" value="8">8
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="optradio" value="9">9
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="optradio" value="10">10
+                        </label>
+                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit" name="scale">
+                            Submit
+                        </button>
+                    </form>
+{#                {% endif %}#}
 
             {% endif %}
         </div>
