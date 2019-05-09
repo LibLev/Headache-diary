@@ -1,7 +1,6 @@
-from flask import Flask, render_template, redirect, session, request, url_for
+from flask import Flask, render_template, redirect, session, request, url_for, jsonify
 from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired
-
 from database import queries
 import hash
 from time import strftime, localtime
@@ -39,7 +38,11 @@ def index():
         data = queries.check_afternoon_data(session.get('user_id'))
     elif day_phase() is 'evening':
         data = queries.check_evening_data(session.get('user_id'))
-    return render_template('index.html', dayPhase=day_phase(), current_day=current_day)
+    if data[-1]["evening_scale"] is None:
+        day_phase_is_done = False
+    else:
+        day_phase_is_done = True
+    return render_template('index.html', dayPhase=day_phase(), current_day=current_day, dayPhaseIsDone=day_phase_is_done)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -128,7 +131,7 @@ def get_registration_data():
 @app.route('/scale', methods=['POST', 'GET'])
 def scale():
     if request.method == 'POST':
-        last_day = queries.get_last_day(session.get('user_id'))
+        last_day = queries.get_last_day(session.get('user_id'))[0]
 
         if day_phase() == 'morning':
             user_id = session.get('user_id')
@@ -169,6 +172,12 @@ def day_phase():
 def start_diary():
     queries.start_diary_day(session.get('user_id'))
     return redirect('/index')
+
+
+@app.route('/api/day-scales', methods=['GET'])
+def get_tasks():
+    day_scales = queries.get_day_scales(session.get('user_id'))
+    return jsonify({'day_scales': day_scales})
 
 
 if __name__ == '__main__':

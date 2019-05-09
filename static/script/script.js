@@ -1,8 +1,30 @@
-function init(){
-    let registerButton = document.getElementById('register-button');
-    registerButton.addEventListener('click',function () {
-        window.location.href = 'registration'
-    });
+function init() {
+    let tHeads = document.querySelectorAll('th');
+    let currentDay = document.getElementById('current-day');
+    for (let head of tHeads) {
+        if (head.textContent === currentDay.value) {
+            head.style.backgroundColor = 'blue'
+        }
+    }
+
+
 }
 
-init();
+document.addEventListener('DOMContentLoaded', function () {
+    init();
+    fetch('api/day-scales')
+        .then(response => {
+            return response.json()
+        })
+        .then(data => {
+            let dayScales = data['day_scales'];
+            for (let scale of dayScales) {
+                let tdContent = document.getElementById(scale['num_of_day']);
+                tdContent.textContent = scale['scales'];
+                console.dir(tdContent)
+
+
+            }
+        })
+
+});
