@@ -27,16 +27,14 @@ secret = URLSafeTimedSerializer('Thisisasecret!')
 def index():
     if session.get('username') is None:
         return redirect('/')
+    current_day = queries.get_last_day(session.get('user_id'))[0]
     if day_phase() is 'morning':
-        print('mornign')
-        queries.check_morning_data()
+        data = queries.check_morning_data(session.get('user_id'))
     elif day_phase() is 'afternoon':
-        queries.check_afternoon_data()
-        print('after')
+        data = queries.check_afternoon_data(session.get('user_id'))
     elif day_phase() is 'evening':
-        queries.check_evening_data()
-        print('evening')
-    return render_template('index.html', dayPhase=day_phase())
+        data = queries.check_evening_data(session.get('user_id'))
+    return render_template('index.html', dayPhase=day_phase(), current_day=current_day)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -156,6 +154,11 @@ def day_phase():
         currentPhase = 'evening'
 
     return currentPhase
+
+
+@app.route('/start_diary', methods=['GET'])
+def start_diary():
+    return redirect('/index')
 
 
 if __name__ == '__main__':
