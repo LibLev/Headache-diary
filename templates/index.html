@@ -10,8 +10,13 @@
     {#    </div>#}
     <div class="row">
         <div class="col text-center">
+            <input type="hidden" name="{{ session["user_id"] }}">
             <h2>{{ dayPhase }} headache pain scale check</h2>
             <hr>
+            {% if current_day == None %}
+                <a href="{{ url_for('start_diary') }}">start diary</a>
+            {% else %}
+
             <form action="{{ url_for('scale') }}" method="post">
                 <label class="radio-inline">
                     <input type="radio" name="optradio" checked value="0">0
@@ -50,6 +55,8 @@
                     Submit
                 </button>
             </form>
+
+            {% endif %}
         </div>
     </div>
 

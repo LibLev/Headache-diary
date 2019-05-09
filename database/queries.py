@@ -20,7 +20,67 @@ def insert_new_user(u_name, f_name, l_name, pword, email):
 
 def get_user(username):
     return data_manager.execute_dml_statement('''
-    SELECT user_name, hashed_password, first_name, last_name, email_address
+    SELECT user_name, hashed_password, first_name, last_name, email_address, id
     FROM users
     WHERE user_name=%(username)s
     ''', variables={'username': username})
+
+
+def insert_new_value_at_morning(u_id, value, time):
+    return data_manager.execute_dml_statement('''
+    INSERT INTO phases(user_id, morning_scale, submission_time)
+    VALUES (%(u_id)s, %(value)s, %(time)s)
+    ''',
+                                              variables={'u_id': u_id, 'value': value,
+                                                         'time': time})
+
+
+def insert_new_value_at_afternoon(u_id, value, time):
+    return data_manager.execute_dml_statement('''
+    INSERT INTO phases(user_id, afternoon_scale, submission_time)
+    VALUES (%(u_id)s, %(value)s, %(time)s)
+    ''',
+                                              variables={'u_id': u_id, 'value': value,
+                                                         'time': time})
+
+
+def insert_new_value_at_evening(u_id, value, time):
+    return data_manager.execute_dml_statement('''
+    INSERT INTO phases(user_id, evening_scale, submission_time)
+    VALUES (%(u_id)s, %(value)s, %(time)s)
+    ''',
+                                              variables={'u_id': u_id, 'value': value,
+                                                         'time': time})
+
+
+def check_morning_data(user_id):
+    return data_manager.execute_dml_statement('''
+    SELECT user_id, morning_scale, num_of_day
+    FROM phases
+    WHERE user_id = %(user_id)s
+    ''', variables={'user_id': user_id})
+
+
+def check_afternoon_data(user_id):
+    return data_manager.execute_dml_statement('''
+    SELECT user_id, afternoon_scale, num_of_day
+    FROM phases
+    WHERE user_id = %(user_id)s''',
+                                              variables={'user_id': user_id})
+
+
+def check_evening_data(user_id):
+    return data_manager.execute_dml_statement('''
+    SELECT user_id, evening_scale, num_of_day
+    FROM phases
+    WHERE user_id = %(user_id)s''',
+                                              variables={'user_id': user_id})
+
+
+def get_last_day(user_id):
+    return data_manager.execute_dml_statement('''
+    SELECT num_of_day 
+    FROM phases
+    WHERE user_id = %(user_id)s
+    ORDER BY num_of_day DESC
+    ''', variables={'user_id': user_id})

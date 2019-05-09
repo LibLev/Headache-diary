@@ -18,8 +18,12 @@ CREATE TABLE phases (
   morning_scale integer,
   afternoon_scale integer,
   evening_scale integer,
-  submission_time timestamp without time zone
+  submission_time timestamp without time zone,
+  num_of_day int
 );
+
+INSERT INTO users
+VALUES (0, 'admin', 'admin', 'admin', '$2b$12$YFMZw7nZtVRiap51QSWj2uU5pUGPFvmOYadN89OtwAwbBnNG21/qO', 'headachediary.noreply@gmail.com');
 
 ALTER TABLE ONLY users
   ADD CONSTRAINT pk_user_id PRIMARY KEY (id);

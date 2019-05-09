@@ -5,6 +5,7 @@ from itsdangerous import URLSafeTimedSerializer, SignatureExpired
 from database import queries
 import hash
 from time import strftime, localtime
+import datetime
 
 app = Flask(__name__)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -26,8 +27,14 @@ secret = URLSafeTimedSerializer('Thisisasecret!')
 def index():
     if session.get('username') is None:
         return redirect('/')
-    dayPhase()
-    return render_template('index.html', dayPhase=dayPhase())
+    current_day = queries.get_last_day(session.get('user_id'))[0]
+    if day_phase() is 'morning':
+        data = queries.check_morning_data(session.get('user_id'))
+    elif day_phase() is 'afternoon':
+        data = queries.check_afternoon_data(session.get('user_id'))
+    elif day_phase() is 'evening':
+        data = queries.check_evening_data(session.get('user_id'))
+    return render_template('index.html', dayPhase=day_phase(), current_day=current_day)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -91,6 +98,7 @@ def login():
             session['first_name'] = user[2]
             session['last_name'] = user[3]
             session['email'] = user[4]
+            session['user_id'] = user[5]
             session['is_valid'] = True
         return redirect('/index')
 
@@ -113,11 +121,25 @@ def get_registration_data():
 @app.route('/scale', methods=['POST', 'GET'])
 def scale():
     if request.method == 'POST':
-        scale = request.form.get('optradio')
+        if day_phase() == 'morning':
+            user_id = session.get('user_id')
+            value = request.form.get('optradio')
+            time = datetime.datetime.now()
+            queries.insert_new_value_at_morning(u_id=user_id, value=value, time=time)
+        elif day_phase() == 'afternoon':
+            user_id = session.get('user_id')
+            value = request.form.get('optradio')
+            time = datetime.datetime.now()
+            queries.insert_new_value_at_afternoon(u_id=user_id, value=value, time=time)
+        elif day_phase() == 'evening':
+            user_id = session.get('user_id')
+            value = request.form.get('optradio')
+            time = datetime.datetime.now()
+            queries.insert_new_value_at_evening(u_id=user_id, value=value, time=time)
     return redirect('/index')
 
 
-def dayPhase():
+def day_phase():
     month_day = strftime('%m.%d', localtime())
     hour_minute = strftime('%H:%M', localtime())
     current_date_and_time = month_day + '.' + hour_minute
@@ -132,6 +154,11 @@ def dayPhase():
         currentPhase = 'evening'
 
     return currentPhase
+
+
+@app.route('/start_diary', methods=['GET'])
+def start_diary():
+    return redirect('/index')
 
 
 if __name__ == '__main__':
