@@ -19,7 +19,7 @@ app.config.update(
 
 mail = Mail(app)
 
-s = URLSafeTimedSerializer('Thisisasecret!')
+secret = URLSafeTimedSerializer('Thisisasecret!')
 
 
 @app.route('/index')
@@ -46,7 +46,7 @@ def registration():
             return render_template('registration.html',
                                    message='Sorry, This user name is already in use. Please Select another')
         queries.insert_new_user(username, first_name, last_name, password, email)
-        token = s.dumps(email, salt='email-confirm')
+        token = secret.dumps(email, salt='email-confirm')
 
         msg = Message('Registration confirmation(do not reply!)', sender='headachediary.noreply@gmail.com',
                       recipients=[email])
@@ -73,7 +73,7 @@ def registration():
 def confirmation(token):
     if request.method == 'POST':
         try:
-            email = s.loads(token, salt='email-confirm', max_age=86400)
+            email = secret.loads(token, salt='email-confirm', max_age=86400)
         except SignatureExpired:
             return render_template('confirmation.html', status='not_valid')
         return redirect('/login')
@@ -120,7 +120,7 @@ def scale():
 def dayPhase():
     month_day = strftime('%m.%d', localtime())
     hour_minute = strftime('%H:%M', localtime())
-    current_date_and_time = month_day+'.'+hour_minute
+    current_date_and_time = month_day + '.' + hour_minute
     get_time = hour_minute.split(':')
     if int(get_time[0]) >= 0 and int(get_time[0]) < 11:
         currentPhase = 'morning'

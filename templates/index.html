@@ -4,15 +4,18 @@
 
     {% include 'navbar.html' %}
 
-{#    <div class="row">#}
-{#        <div class="col"><img src="{{ url_for('static', filename='img/psyduck.png') }}" alt="" class="avatar"></div>#}
-{#        <div class="col">{{ session.first_name + ' '+  session.last_name }}</div>#}
-{#    </div>#}
+    {#    <div class="row">#}
+    {#        <div class="col"><img src="{{ url_for('static', filename='img/psyduck.png') }}" alt="" class="avatar"></div>#}
+    {#        <div class="col">{{ session.first_name + ' '+  session.last_name }}</div>#}
+    {#    </div>#}
     <div class="row">
         <div class="col text-center">
             <h2>{{ dayPhase }} headache pain scale check</h2>
             <hr>
             <form action="{{ url_for('scale') }}" method="post">
+                <label class="radio-inline">
+                    <input type="radio" name="optradio" checked value="0">0
+                </label>
                 <label class="radio-inline">
                     <input type="radio" name="optradio" checked value="1">1
                 </label>
