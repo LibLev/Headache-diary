@@ -31,14 +31,14 @@ def index():
     except TypeError:
         current_day = None
         queries.bind_user_to_phase(session.get('user_id'), datetime.datetime.now())
+    day_phase_is_done = False
 
     try:
-        day_phase_is_done = True
         usr_id = session['user_id']
         if day_phase() is 'morning':
-            next_day = queries.check_evening_data(usr_id)[0]
-            if next_day is not None:
-                queries.set_next_day(usr_id, queries.get_last_day(usr_id)[0] + 1)
+            # next_day = queries.check_evening_data(usr_id)[0]
+            # if next_day is not None:
+            #     queries.set_next_day(usr_id, queries.get_last_day(usr_id)[0] + 1)
 
             data = queries.check_morning_data(usr_id)
             if data[0] is None:

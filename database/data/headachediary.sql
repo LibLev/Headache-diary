@@ -24,8 +24,6 @@ CREATE TABLE phases (
 
 INSERT INTO users
 VALUES (0, 'admin', 'admin', 'admin', '$2b$12$YFMZw7nZtVRiap51QSWj2uU5pUGPFvmOYadN89OtwAwbBnNG21/qO', 'headachediary.noreply@gmail.com');
-INSERT INTO users
-VALUES (1, 'szkript', 'Szanyi', 'Krisztián', '$2b$12$W/2xeeOXDf9EVoJemNANf.pFE0v8cG30Y6CX1f16V1hxvkP4Qwf6a', 'szkript@gmail.com');
 
 
 INSERT INTO phases VALUES (0, 0, 1, NULL, NULL, '2019-05-09 22:46:00.652267', 1);
